@@ -1,0 +1,2 @@
+module ParkingSpacesHelper
+end
