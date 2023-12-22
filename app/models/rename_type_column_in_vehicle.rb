@@ -1,0 +1,2 @@
+class RenameTypeColumnInVehicle < ApplicationRecord
+end

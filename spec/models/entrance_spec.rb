@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe ParkingSpace, type: :model do
+RSpec.describe Entrance, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

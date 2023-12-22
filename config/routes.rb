@@ -1,17 +1,28 @@
 Rails.application.routes.draw do
-  root 'parking_spaces#index'
+  resources :vehicles, only: %i[new create show unpark]
+  resources :entrances, only: %i[index show]
+  resources :parking_sessions, only: %i[index show]
 
-  # resources :parking_spaces do
-  #   member do
-  #     patch '/vehicles/:id/unpark', to: 'parking_spaces#unpark_vehicle', as: 'unpark_vehicle'
-  #   end
-  # end
+  get 'parking_confirmation/:id', to: 'vehicles#parking_confirmation', as: 'parking_confirmation'
+  get 'payment_confirmation/:parking_space_id/:fee', to: 'vehicles#payment_confirmation', as: 'payment_confirmation'
+  
+  resources :entrances do
+    resources :parking_spaces
+  end
+
+  resources :parking_sessions, only: [:index] do
+    collection do
+      get :search
+    end
+  end  
+
   # config/routes.rb
-  get '/unpark_and_view_fee', to: 'parking#unpark_and_view_fee', as: :unpark_and_view_fee
-  get '/delete_vehicle', to: 'parking#delete_vehicle', as: :delete_vehicle
+  resources :vehicles do
+    member do
+      delete 'unpark', to: 'vehicles#unpark'
+    end
+  end
 
-  get 'manual_parking/:id', to: 'parking_spaces#new_manual_parking', as: 'new_manual_parking'
-  post 'manual_parking', to: 'parking_spaces#create_manual_parking', as: 'create_manual_parking'
+  root to: 'entrances#index'
 
-  resources :entrances, only: [:new, :create]
 end

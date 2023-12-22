@@ -1,0 +1,16 @@
+<h1>Parked Vehicle Details</h1>
+
+<p>Vehicle Type: <%= @vehicle.type %></p>
+<p>Entrance: <%= @vehicle.parking_session.entrance.name %></p>
+<p>Assigned Slot: <%= @vehicle.parking_session.parking_space.id %></p>
+<p>Parking Duration: <%= @vehicle.parking_session.duration %> hours</p>
+<p>Calculated Fee: <%= @vehicle.parking_session.calculate_fee %> pesos</p>
+
+<p>Distances from entrances:</p>
+<ul>
+    <% @distances.each do |entrance_id, distance| %>
+        <li><%= Entrance.find(entrance_id).name %>: <%= distance %> units</li>
+    <% end %>
+</ul>
+
+<%= link_to "Unpark Vehicle", unpark_vehicle_path(@vehicle) %>

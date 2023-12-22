@@ -1,0 +1,26 @@
+<%= form_tag parking_sessions_path, method: :get do %>
+  <div>
+    <label>Filter by Date Range:</label>
+    <%= date_field_tag :start_date %>
+    <%= date_field_tag :end_date %>
+
+    <label>Filter by Vehicle Type:</label>
+    <%= select_tag :vehicle_type, options_for_select(Vehicle.types) %>
+
+    <label>Filter by Entrance:</label>
+    <%= select_tag :entrance_id, options_from_collection_for_select(Entrance.all, :id, :name) %>
+
+    <%= submit_tag "Filter" %>
+  </div>
+<% end %>
+
+<% if @error_message %>
+  <div class="error_message"><%= @error_message %></div>
+<% end %>
+
+<%= paginate @parking_sessions %>
+
+<%= form_tag parking_sessions_search_path, method: :get do %>
+  <%= text_field_tag :search_query %>
+  <%= submit_tag "Search" %>
+<% end %>

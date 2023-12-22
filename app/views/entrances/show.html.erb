@@ -1,0 +1,12 @@
+<h1>Entrance Details</h1>
+
+<p>Name: <%= @entrance.name %></p>
+<p>Location: <%= @entrance.location %></p>
+
+<h2>Available Parking Slots</h2>
+
+<ul>
+    <% @entrance.parking_spaces.available.each do |parking_space| %>
+        <li><%= parking_space.id %> (<%= parking_space.type %> type)</li>
+    <% end %>
+</ul>

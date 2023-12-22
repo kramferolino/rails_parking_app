@@ -1,0 +1,10 @@
+<h1>Parking Session Details</h1>
+
+<% if @parking_session.vehicle.present? %>
+  <p>Vehicle Type: <%= @parking_session.vehicle.vehicle_type %></p>
+  <p>Entrance: <%= @parking_session.entrance.name %></p>
+  <p>Parking Space: <%= @parking_session.parking_space.id %></p>
+  <p>Started At: <%= @parking_session.started_at %></p>
+<% else %>
+  <p>No vehicle associated with this parking session.</p>
+<% end %>

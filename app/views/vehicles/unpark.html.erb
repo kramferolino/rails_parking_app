@@ -1,0 +1,22 @@
+<h1>Unpark Vehicle</h1>
+
+<p>Vehicle Type: <%= @vehicle.vehicle_type %></p>
+
+<% if @vehicle.parking_sessions.any? %>
+  <% latest_parking_session = @vehicle.parking_sessions.last %>
+  <p>Entrance: <%= latest_parking_session.entrance.name %></p>
+  <p>Assigned Slot: <%= latest_parking_session.parking_space.id %></p>
+  <p>Parking Duration: <%= latest_parking_session.duration %> hours</p>
+  <p>Calculated Fee: <%= latest_parking_session.calculate_fee %> pesos</p>
+<% else %>
+  <p>No parking sessions found for this vehicle.</p>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="error_message"><%= flash[:error] %></div>
+<% end %>
+
+<%# Payment processing UI (replace with your implementation) %>
+<%= form_tag unpark_vehicle_path(@vehicle) do %>
+  <%= submit_tag "Unpark and Pay" %>
+<% end %>

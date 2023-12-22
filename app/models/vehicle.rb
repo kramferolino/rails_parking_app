@@ -1,5 +1,13 @@
 class Vehicle < ApplicationRecord
-    enum size: { small: 0, medium: 1, large: 2 }
-    belongs_to :parking_slot, optional: true
-    attr_accessor :slot_id
+  belongs_to :parking_space
+  belongs_to :entrance
+  has_many :payment_transactions
+  has_many :parking_sessions
+  
+  enum vehicle_type: { small: 'Small', medium: 'Medium', large: 'Large' }
+  attribute :vehicle_type, :string
+
+  def self.types
+    vehicle_types.keys
+  end
 end
