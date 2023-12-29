@@ -1,45 +1,55 @@
 class ParkingSpace < ApplicationRecord
-  has_many :parking_sessions
-  has_one :vehicle
   belongs_to :entrance
+  # has_one :vehicle
 
-  validates :entrance, presence: true
-  validates :size_label, presence: true
+  belongs_to :vehicle, optional: true
+  has_many :parking_sessions
+  has_many :vehicles, through: :parking_sessions
+  
 
-  COMPATIBILITY = {
-    'small' => ['SP'],
-    'medium' => ['MP'],
-    'large' => ['LP']
-    # Add more mappings if needed
-  }
+  SIZE_OPTIONS = [["Small", 0], ["Medium", 1], ["Large", 2]]
 
-  def compatible_with?(vehicle_type)
-    COMPATIBILITY[self.type].include?(vehicle.size_id)
+  def size_label
+    SIZE_OPTIONS.find { |size| size[1] == self.space_size }[0]  
   end
 
-  def self.find_next_available(vehicle_type, entrance_id)
-    puts "Searching for vehicle type: #{vehicle_type} at entrance ID: #{entrance_id}"
-    available_space = where(
-      status: "available",
-      parking_space_type: COMPATIBILITY[vehicle_type], # Adjust to match the column name
-      entrance_id: entrance_id
-    ).first
-    
-
-    puts "Found space: #{available_space.inspect}"
-    available_space
+  def self.entrances
+    Entrance.all
   end
 
-  # Accessing distances as regular attributes
-  def distances_from_entrances
-    [
-      [1, distance_to_entrance_1],
-      [2, distance_to_entrance_2],
-      [3, distance_to_entrance_3]  # ... (add other entrances)
-    ]
+  # def self.find_available(size)
+  #   available_spaces = where(available: true)
+  #                     .where("space_size >= ?", size)
+  #   available_spaces.first  
+  # end
+
+  def self.find_available(size)
+    case size.to_i
+    when 0 # Small
+      where(available: true)
+        .where("space_size >= ?", 0)
+        .order(space_size: :asc)
+    when 1 # Medium
+      where(available: true)
+        .where("space_size >= ?", 1)
+        .order(space_size: :asc)
+    when 2 # Large
+      where(available: true, space_size: 2)
+    else
+      none
+    end
   end
 
-  def display_size
-    size_label || "Unknown Size"
+  def self.park_vehicle(vehicle_size)
+    available_space = find_available(vehicle_size).first
+
+    if available_space.present?
+      available_space.update(available: false)
+      available_space
+    else
+      raise "Error: No available parking space for #{vehicle_size} vehicle"
+    end
   end
 end
+
+

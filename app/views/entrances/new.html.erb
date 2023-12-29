@@ -1,13 +1,9 @@
-<h1>New Entrance</h1>
-<%= form_with(model: @entrance, url: entrances_path, method: :post) do |form| %>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-    
-    <%= form.label :location %>
-    <%= form.text_field :location %>
-    
-    <%= form.label :parking_space_id %>
-    <%= form.collection_select :parking_space_id, @parking_spaces, :id, :id %>
-    
-    <%= form.submit 'Create Entrance' %>
-<% end %>
+<h1>New entrance</h1>
+
+<%= render "form", entrance: @entrance %>
+
+<br>
+
+<div>
+  <%= link_to "Back to entrances", entrances_path %>
+</div>

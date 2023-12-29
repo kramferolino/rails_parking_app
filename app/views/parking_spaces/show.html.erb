@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @parking_space %>
+
+<div>
+  <%= link_to "Back to Entrance view", entrances_path %> | 
+  <%= link_to "Pay and Unpark", unpark_vehicle_path(@vehicle) if @vehicle.present? %>
+</div>

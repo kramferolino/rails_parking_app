@@ -1,7 +1,0 @@
-<h1>Manual Vehicle Parking</h1>
-<%= form_with(model: @vehicle, url: create_manual_parking_path, method: :post) do |form| %>
-    <%= form.hidden_field :slot_id, value: @slot_id %>
-    <%= form.label :size %>
-    <%= form.select :size, Vehicle.sizes.keys %>
-    <%= form.submit 'Park Vehicle' %>
-<% end %>

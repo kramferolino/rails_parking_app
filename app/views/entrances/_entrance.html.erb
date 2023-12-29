@@ -1,0 +1,43 @@
+<div id="<%= dom_id entrance %>">
+  <h2><%= link_to entrance.name, entrance %></h2>
+
+  <% if entrance.parking_spaces.any? %>
+    <h3>Available Parking Spaces: <%= entrance.parking_spaces.where(available: true).count %></h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Slot No.</th>
+          <th>Slot Size</th>
+          <th>Vehicle Size</th>
+          <th>Parking Fee</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% entrance.parking_spaces.each do |parking_space| %>
+          <tr>
+            <td><%= parking_space.id %></td>
+            <td><%= parking_space.size_label %></td>
+            <% if parking_space.vehicle.present? %>
+              <td><%= parking_space.vehicle.size_label.capitalize %></td>
+            <% else %>
+              <td>No Vehicle</td>
+            <% end %>
+            <td>Amount</td>
+            <%# if parking_space.parking_session.present? %>
+              <%# <td><%= parking_space.parking_session.fee</td>  %>
+            <%# else %>
+              <%# <td>N/A</td> %>
+            <%# end %>
+            <td><%= !parking_space.available ? link_to('Unpark', 
+              parking_space_path(parking_space)) : 'Available' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No parking spaces available for this entrance.</p>
+  <% end %>
+  <hr>
+</div>

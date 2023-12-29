@@ -1,6 +1,0 @@
-<h1>Edit Slots for Parking Space ID: <%= @parking_space.id %></h1>
-<%= form_with(model: @parking_space, url: update_slots_parking_space_path(@parking_space), method: :patch) do |form| %>
-    <%= form.label :number_of_slots %>
-    <%= form.number_field :number_of_slots %>
-    <%= form.submit 'Update Slots' %>
-<% end %>

@@ -1,10 +1,10 @@
-<h1>Parking Session Details</h1>
+<p style="color: green"><%= notice %></p>
 
-<% if @parking_session.vehicle.present? %>
-  <p>Vehicle Type: <%= @parking_session.vehicle.vehicle_type %></p>
-  <p>Entrance: <%= @parking_session.entrance.name %></p>
-  <p>Parking Space: <%= @parking_session.parking_space.id %></p>
-  <p>Started At: <%= @parking_session.started_at %></p>
-<% else %>
-  <p>No vehicle associated with this parking session.</p>
-<% end %>
+<%= render @parking_session %>
+
+<div>
+  <%= link_to "Edit this parking session", edit_parking_session_path(@parking_session) %> |
+  <%= link_to "Back to parking sessions", parking_sessions_path %>
+
+  <%= button_to "Destroy this parking session", @parking_session, method: :delete %>
+</div>

@@ -1,12 +1,10 @@
-<h1>Entrance Details</h1>
+<p style="color: green"><%= notice %></p>
 
-<p>Name: <%= @entrance.name %></p>
-<p>Location: <%= @entrance.location %></p>
+<%= render @entrance %>
 
-<h2>Available Parking Slots</h2>
+<div>
+  <%= link_to "Edit this entrance", edit_entrance_path(@entrance) %> |
+  <%= link_to "Back to entrances", entrances_path %>
 
-<ul>
-    <% @entrance.parking_spaces.available.each do |parking_space| %>
-        <li><%= parking_space.id %> (<%= parking_space.type %> type)</li>
-    <% end %>
-</ul>
+  <%= button_to "Destroy this entrance", @entrance, method: :delete %>
+</div>

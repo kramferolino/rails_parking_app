@@ -1,28 +1,20 @@
 Rails.application.routes.draw do
-  resources :vehicles, only: %i[new create show unpark]
-  resources :entrances, only: %i[index show]
-  resources :parking_sessions, only: %i[index show]
+  resources :vehicles
+  resources :parking_sessions
+  resources :parking_spaces
+  resources :entrances
 
-  get 'parking_confirmation/:id', to: 'vehicles#parking_confirmation', as: 'parking_confirmation'
-  get 'payment_confirmation/:parking_space_id/:fee', to: 'vehicles#payment_confirmation', as: 'payment_confirmation'
-  
-  resources :entrances do
-    resources :parking_spaces
-  end
-
-  resources :parking_sessions, only: [:index] do
-    collection do
-      get :search
-    end
-  end  
-
-  # config/routes.rb
   resources :vehicles do
-    member do
-      delete 'unpark', to: 'vehicles#unpark'
-    end
+    post :park, on: :collection
+    patch :unpark, on: :member
+    # get :unpark, on: :member, constraints: {vehicle_id: /[0-9]+/}
   end
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  root to: 'entrances#index'
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
 
+  # Defines the root path route ("/")
+  root "entrances#index"
 end

@@ -1,0 +1,42 @@
+<%= form_with(model: parking_session) do |form| %>
+  <% if parking_session.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(parking_session.errors.count, "error") %> prohibited this parking_session from being saved:</h2>
+
+      <ul>
+        <% parking_session.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :vehicle_id, style: "display: block" %>
+    <%= form.text_field :vehicle_id %>
+  </div>
+
+  <div>
+    <%= form.label :parking_space_id, style: "display: block" %>
+    <%= form.text_field :parking_space_id %>
+  </div>
+
+  <div>
+    <%= form.label :base_fee, style: "display: block" %>
+    <%= form.number_field :base_fee %>
+  </div>
+
+  <div>
+    <%= form.label :fee, style: "display: block" %>
+    <%= form.number_field :fee %>
+  </div>
+
+  <div>
+    <%= form.label :total_fee, style: "display: block" %>
+    <%= form.number_field :total_fee %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

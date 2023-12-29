@@ -1,0 +1,31 @@
+<div id="<%= dom_id parking_space %>">
+    <p>
+      <strong>Entrance:</strong>
+      <%= parking_space.entrance.name %>
+    </p>
+
+    <p>
+      <strong>Parking size:</strong>
+      <%= parking_space.size_label %>
+    </p>
+
+    <p>
+      <strong>Vehicle size:</strong>
+      <%= parking_space.vehicle.size_label.capitalize %>
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      <%= !parking_space.available ? "Occupied" : "Available" %>
+    </p>
+
+    <p>
+      <strong>Base Fee:</strong>
+      40 for any Vehicle size.
+    </p>
+
+    <p>
+      <strong>Total Parking Fee:</strong>
+      40 (placeholder)
+    </p>
+</div>

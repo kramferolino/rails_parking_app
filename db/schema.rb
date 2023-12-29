@@ -10,69 +10,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_22_052350) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_25_035347) do
   create_table "entrances", force: :cascade do |t|
     t.string "name"
-    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "parking_sessions", force: :cascade do |t|
     t.integer "vehicle_id", null: false
-    t.integer "entrance_id", null: false
     t.integer "parking_space_id", null: false
-    t.datetime "started_at"
+    t.integer "base_fee", default: 40
+    t.integer "fee", default: 0
+    t.integer "total_fee", default: 0
+    t.boolean "fee_estimated", default: true
+    t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["entrance_id"], name: "index_parking_sessions_on_entrance_id"
     t.index ["parking_space_id"], name: "index_parking_sessions_on_parking_space_id"
     t.index ["vehicle_id"], name: "index_parking_sessions_on_vehicle_id"
   end
 
   create_table "parking_spaces", force: :cascade do |t|
-    t.string "parking_space_type"
-    t.string "status"
     t.integer "entrance_id", null: false
-    t.integer "distance_to_entrance_1"
-    t.integer "distance_to_entrance_2"
-    t.integer "distance_to_entrance_3"
-    t.string "size_label"
+    t.integer "vehicle_id"
+    t.integer "space_size"
+    t.boolean "available", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["entrance_id"], name: "index_parking_spaces_on_entrance_id"
-  end
-
-  create_table "payment_transactions", force: :cascade do |t|
-    t.integer "vehicle_id", null: false
-    t.integer "parking_session_id", null: false
-    t.string "transaction_id"
-    t.decimal "total_payment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["parking_session_id"], name: "index_payment_transactions_on_parking_session_id"
-    t.index ["vehicle_id"], name: "index_payment_transactions_on_vehicle_id"
+    t.index ["vehicle_id"], name: "index_parking_spaces_on_vehicle_id"
   end
 
   create_table "vehicles", force: :cascade do |t|
-    t.string "vehicle_type"
-    t.datetime "started_at"
+    t.integer "vehicle_size"
+    t.boolean "parked", default: false
+    t.datetime "start_at", default: "2023-12-26 18:32:03"
     t.datetime "end_at"
-    t.integer "parking_space_id", null: false
+    t.integer "base_fee", default: 40
+    t.integer "fee", default: 0
+    t.integer "total_fee", default: 0
+    t.boolean "fee_estimated", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "entrance_id"
-    t.index ["entrance_id"], name: "index_vehicles_on_entrance_id"
-    t.index ["parking_space_id"], name: "index_vehicles_on_parking_space_id"
   end
 
-  add_foreign_key "parking_sessions", "entrances"
   add_foreign_key "parking_sessions", "parking_spaces"
   add_foreign_key "parking_sessions", "vehicles"
   add_foreign_key "parking_spaces", "entrances"
-  add_foreign_key "payment_transactions", "parking_sessions"
-  add_foreign_key "payment_transactions", "vehicles"
-  add_foreign_key "vehicles", "entrances"
-  add_foreign_key "vehicles", "parking_spaces"
+  add_foreign_key "parking_spaces", "vehicles"
 end

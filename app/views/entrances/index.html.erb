@@ -1,52 +1,11 @@
-<h1>Rails Parking App</h1>
+<p style="color: green"><%= notice %></p>
 
-<% @entrances.each do |entrance| %>
-  <h2><%= entrance.name %></h2>
-  <p>Location: <%= entrance.location %></p>
-  
-  <% if entrance.parking_spaces.any? %>
-    <h3>Parking Spaces:</h3>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Size</th>
-          <th>Vehicle Size</th> <!-- New column for vehicle size -->
-          <th>Status</th>
-          <!-- Add other column headers for parking space details -->
-        </tr>
-      </thead>
-      <tbody>
-        <% entrance.parking_spaces.each do |parking_space| %>
-          <tr>
-            <td><%= parking_space.parking_space_type %></td>
-            <% if parking_space.status.nil? %>
-              <td><%= parking_space.size_label %></td>
-              <td>No Vehicle</td> <!-- Empty cell for vehicle size when space is available -->
-              <td>Available</td> <!-- Empty cell for Unpark action when space is available -->
-            <% else %>
-              <td><%= parking_space.size_label %></td>
-              <% if parking_space.vehicle.present? %>
-                <td><%= parking_space.vehicle.vehicle_type.capitalize %></td>
-              <% else %>
-                <td>No Vehicle</td>
-              <% end %>
-              <td>
-                <% if parking_space.vehicle.present? %>
-                  <%= link_to "Unpark", unpark_vehicle_path(parking_space.vehicle), method: :delete, data: { confirm: "Are you sure?" } %>
-                <% else %>
-                  <!-- Empty cell for Unpark action when no vehicle is present -->
-                <% end %>
-              </td>
-            <% end %>
-            <!-- Add other table cells for parking space details -->
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>No parking spaces available for this entrance.</p>
+<h1>Parking Application</h1>
+
+<div id="entrances">
+  <% @entrances.each do |entrance| %>
+    <%= render entrance %>
   <% end %>
-  <hr>
-<% end %>
-<%= link_to 'Park a Vehicle', new_vehicle_path, class: 'btn btn-primary' %>
+</div>
+
+<%= link_to "Park a Vehicle", new_vehicle_path %>

@@ -1,37 +1,14 @@
+<p style="color: green"><%= notice %></p>
 
-<h1>Parking Information</h1>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Parking Space ID</th>
-            <th>Parking Slot ID</th>
-            <th>Vehicle ID</th>
-            <th>Vehicle Size</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @parking_spaces.each do |space| %>
-          <% space.parking_slots.each do |slot| %>
-            <tr>
-              <td><%= space.id %></td>
-              <td><%= slot.id %></td>
-              <td><%= slot.vehicle_id %></td>
-              <td><%= slot.vehicle&.size %></td>
-              <td>
-                <% if slot.vehicle.present? %>
-                  <% parked_time = calculate_parked_time(vehicle) %>
-                  <% if parked_time.present? %>
-                    <% fee = calculate_fee(slot.vehicle, parked_time) %>
-                    <%= fee %>
-                    <%= link_to 'Pay & Unpark', delete_vehicle_path(vehicle_id: slot.vehicle.id), method: :get, data: { confirm: 'Are you sure?' } %>
-                  <% else %>
-                    <%= link_to 'Park Manually', new_manual_parking_path(slot.id) %>
-                  <% end %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-    </tbody>
-</table>
+<h1>Parking spaces</h1>
+
+<div id="parking_spaces">
+  <% @parking_spaces.each do |parking_space| %>
+    <%= render parking_space %>
+    <p>
+      <%= link_to "Show this parking space", parking_space %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New parking space", new_parking_space_path %>

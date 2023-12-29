@@ -1,26 +1,14 @@
-<%= form_tag parking_sessions_path, method: :get do %>
-  <div>
-    <label>Filter by Date Range:</label>
-    <%= date_field_tag :start_date %>
-    <%= date_field_tag :end_date %>
+<p style="color: green"><%= notice %></p>
 
-    <label>Filter by Vehicle Type:</label>
-    <%= select_tag :vehicle_type, options_for_select(Vehicle.types) %>
+<h1>Parking sessions</h1>
 
-    <label>Filter by Entrance:</label>
-    <%= select_tag :entrance_id, options_from_collection_for_select(Entrance.all, :id, :name) %>
+<div id="parking_sessions">
+  <% @parking_sessions.each do |parking_session| %>
+    <%= render parking_session %>
+    <p>
+      <%= link_to "Show this parking session", parking_session %>
+    </p>
+  <% end %>
+</div>
 
-    <%= submit_tag "Filter" %>
-  </div>
-<% end %>
-
-<% if @error_message %>
-  <div class="error_message"><%= @error_message %></div>
-<% end %>
-
-<%= paginate @parking_sessions %>
-
-<%= form_tag parking_sessions_search_path, method: :get do %>
-  <%= text_field_tag :search_query %>
-  <%= submit_tag "Search" %>
-<% end %>
+<%= link_to "New parking session", new_parking_session_path %>
